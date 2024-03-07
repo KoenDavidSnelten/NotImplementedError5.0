@@ -3,7 +3,6 @@ import pandas as pd
 from get_data_info import Data_info
 
 
-
 def get_all_data_info():
     # Open the text file in read mode
     with open('data_urls.txt', 'r') as file:
