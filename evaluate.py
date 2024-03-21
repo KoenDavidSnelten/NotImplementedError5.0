@@ -2,7 +2,7 @@ import pandas as pd
 from transformers import AutoTokenizer, AutoModel
 import sys
 
-def eval(infile, bert, svm):
+def evaluate(infile, bert, svm):
     # load models
     tokenizer = AutoTokenizer.from_pretrained('vinai/bertweet-base')
     model = AutoModel.from_pretrained(bert)  # PyTorch
@@ -11,7 +11,6 @@ def eval(infile, bert, svm):
     # tokenize
     tokenized = tokenizer(df_test["text"], padding="max_length",
                           truncation=True)
-    
     label_map_BERTweet = {0: "ABUSIVE", 1: "NOT", 2: "OFFENSIVE"}
 
     # predict labels
@@ -23,4 +22,4 @@ def eval(infile, bert, svm):
 
 
 if __name__ == "__main__":
-    eval(sys.argv[1], sys.argv[2], sys.argv[3])
+    evaluate(sys.argv[1], sys.argv[2], sys.argv[3])
