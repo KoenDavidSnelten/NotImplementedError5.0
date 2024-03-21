@@ -4,4 +4,4 @@ data_urls.txt
 __pycache__
 train_data_offensive_abusive_taskC.csv
 .venv/
-
+models/
