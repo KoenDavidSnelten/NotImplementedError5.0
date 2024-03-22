@@ -4,24 +4,40 @@ import pandas as pd
 from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification
 import sys
 
+
+def _normalize_tweet_bertweet(tweet):
+  # In our data usernames are already normalized to @USER so this will not change anything
+  # however URLS are already replaced to URL, but BERTweet uses HTTPURL instead of URL
+  # so we have to replace these too, the rest is done by normalizeTweet from BERTweet
+  tweet['normalized_text'] = normalizeTweet(tweet['text']).replace('URL', 'HTTPURL')
+  return tweet
+
 def evaluate(infile, bert):
-    # load models
+    # Load the tokenizer and the model
     tokenizer = AutoTokenizer.from_pretrained('vinai/bertweet-base')
     model = AutoModelForSequenceClassification.from_pretrained(bert, use_safetensors=True)
-    # load dev_data_text
-    df_test = pd.read_csv(infile)
-    # tokenize
-    tokenized = tokenizer(df_test["text"], padding="max_length",
-                          truncation=True)
+
+    # Load the data to be predicted
+    data = pd.read_csv(infile)
+
+    # Normalize the data
+    data = data.apply(_normalize_tweet_bertweet, axis=1)
+
+    test_X = data['normalized_text'].tolist()
+
+    # Tokenize the data
+    tokenized = tokenizer(test_X, padding="max_length",
+                          truncation=True, return_tensors="pt")
 
     label_map_BERTweet = {0: "ABUSIVE", 1: "NOT", 2: "OFFENSIVE"}
 
     # predict labels
-    predicted = model.predict(tokenized)
+    # predicted = model.predict(tokenized)
+    predications = model(**tokenized)
 
     # make output file
-    df_test["abusive_offensive_not"] = predicted
-    df_test.to_csv('test_set_out.csv', index=False)
+    # df_test["abusive_offensive_not"] = predicted
+    # df_test.to_csv('test_set_out.csv', index=False)
 
 
 if __name__ == "__main__":
@@ -33,6 +49,7 @@ if __name__ == "__main__":
     # Add bertweet
     import sys
     sys.path.append('BERTweet')
+    from TweetNormalizer import normalizeTweet
 
     parser.add_argument("infile", help="Path to the (dev) data input file")
     parser.add_argument("model", help="Path to the model")
