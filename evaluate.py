@@ -2,6 +2,7 @@ import os
 from argparse import ArgumentParser
 import pandas as pd
 from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification
+from TweetNormalizer import normalizeTweet
 import sys
 
 
@@ -16,24 +17,30 @@ def evaluate(infile, bert):
     # Load the tokenizer and the model
     tokenizer = AutoTokenizer.from_pretrained('vinai/bertweet-base')
     model = AutoModelForSequenceClassification.from_pretrained(bert, use_safetensors=True)
+    print("Models loaded")
 
     # Load the data to be predicted
     data = pd.read_csv(infile)
+    print("Data loaded")
 
     # Normalize the data
     data = data.apply(_normalize_tweet_bertweet, axis=1)
 
     test_X = data['normalized_text'].tolist()
+    print("Text normalized")
 
     # Tokenize the data
     tokenized = tokenizer(test_X, padding="max_length",
                           truncation=True, return_tensors="pt")
+    print("Text tokenized")
 
     label_map_BERTweet = {0: "ABUSIVE", 1: "NOT", 2: "OFFENSIVE"}
 
     # predict labels
     # predicted = model.predict(tokenized)
     predications = model(**tokenized)
+    print("Predictions generated")
+    print(predications)
 
     # make output file
     # df_test["abusive_offensive_not"] = predicted
@@ -47,9 +54,7 @@ if __name__ == "__main__":
     )
 
     # Add bertweet
-    import sys
     sys.path.append('BERTweet')
-    from TweetNormalizer import normalizeTweet
 
     parser.add_argument("infile", help="Path to the (dev) data input file")
     parser.add_argument("model", help="Path to the model")
