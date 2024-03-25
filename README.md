@@ -23,7 +23,7 @@ For more information on the BERTweet model itself view their [huggingface docume
 
 The training of the SVM and fine-tuned model is done using notebooks. Which are stored in the `bertweet` folder.
 
-- [`bertweet/bertje_finetuned.ipynb`](bertje/bertje_finetuned.ipynb) trains the fine-tuned BERTje model
-- [`bertweet/bertje_svm.ipynb`](bertje/bertje_svm.ipynb) trains the fine-tuned BERTje model
+- [`bertweet/bertweet_finetuned.ipynb`](bertweet/bertweet_finetuned.ipynb) trains the fine-tuned bertweet model
+- [`bertweet/bertweet_svm.ipynb`](bertweet/bertweet_svm.ipynb) trains the fine-tuned bertweet model
 
 Instructions on how the use the notebooks is in the notebook itself. However it is important to have the DALC data in the same directory with the filename: `train_data_offensive_abusive_taskC.csv`
