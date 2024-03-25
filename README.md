@@ -10,7 +10,20 @@ For both BERTje and BERTweet we trained a SVM on the word embeddings from the sp
 
 For more information on the BERTje model itself view their [github page](https://github.com/wietsedv/bertje)
 
+The training of the SVM and fine-tuned model is done using notebooks. Which are stored in the `bertje` folder.
+
+- [`bertje/bertje_finetuned.ipynb`](bertje/bertje_finetuned.ipynb) trains the fine-tuned BERTje model
+- [`bertje/bertje_svm.ipynb`](bertje/bertje_svm.ipynb) trains the fine-tuned BERTje model
+
+Instructions on how the use the notebooks is in the notebook itself. However it is important to have the DALC data in the same directory with the filename: `train_data_offensive_abusive_taskC.csv`
+
 ### BERTweet 
 
 For more information on the BERTweet model itself view their [huggingface documentation](https://huggingface.co/docs/transformers/en/model_doc/bertweet)
 
+The training of the SVM and fine-tuned model is done using notebooks. Which are stored in the `bertweet` folder.
+
+- [`bertweet/bertje_finetuned.ipynb`](bertje/bertje_finetuned.ipynb) trains the fine-tuned BERTje model
+- [`bertweet/bertje_svm.ipynb`](bertje/bertje_svm.ipynb) trains the fine-tuned BERTje model
+
+Instructions on how the use the notebooks is in the notebook itself. However it is important to have the DALC data in the same directory with the filename: `train_data_offensive_abusive_taskC.csv`
